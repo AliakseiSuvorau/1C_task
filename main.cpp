@@ -18,9 +18,8 @@ class Graph {
  private:
   void EnterGraph();
   void ProcessLeqOneEdge();
-  void Infect(size_t index, bool check = false);
+  void Infect(size_t index);
   void PrintInfected();
-  bool IsInfected(size_t index, bool dont_check_neigh = false);
   void Paint();
   void InfectMinimumColorSum();
   void HealUnnecessary();
@@ -61,11 +60,9 @@ void Graph::ProcessLeqOneEdge() {
   }
 }
 
-void Graph::Infect(size_t index, bool check) {
+void Graph::Infect(size_t index) {
   infected_.insert(index);
-  if (check && adj_list[index].second.size() > 1 || !check) {
-    adj_list[index].first = true;
-  }
+  adj_list[index].first = true;
 }
 
 void Graph::FindInfected() {
@@ -92,22 +89,6 @@ void Graph::PrintGraph() {
     }
     std::cout << "\n";
   }
-}
-
-bool Graph::IsInfected(size_t index, bool dont_check_neigh) {
-  if (adj_list[index].first) {
-    return true;
-  }
-  if (dont_check_neigh) {
-    return false;
-  }
-  size_t num_of_inf_neigh = 0;
-  for (size_t i = 0; i < adj_list[index].second.size(); ++i) {
-    if (adj_list[adj_list[index].second[i].to].first) {
-      ++num_of_inf_neigh;
-    }
-  }
-  return num_of_inf_neigh > 1;
 }
 
 void Graph::Paint() {
@@ -145,7 +126,7 @@ void Graph::InfectMinimumColorSum() {
   // Infect
   for (size_t i = 0; i < adj_list.size(); ++i) {
     if (painted_[i] != max_color) {
-      Infect(i, true);
+      Infect(i);
     }
   }
 }
