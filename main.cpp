@@ -8,7 +8,8 @@ class Graph {
     size_t to = 0;
   };
 
-  size_t num_of_vertexes_ = 1e4;
+  const size_t kMaxVertex = 1e6;
+  size_t num_of_vertexes_ = kMaxVertex;
   size_t num_of_edges_ = 0;
   std::vector<std::pair<bool, std::vector<Edge>>> adj_list;
   std::set<size_t> infected_;
